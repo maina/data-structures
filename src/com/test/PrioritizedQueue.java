@@ -9,7 +9,7 @@ public class PrioritizedQueue {
 
 
     public static void main(String[] args) {
-        PrioritizedQueue queue= new PrioritizedQueue(10);
+        PrioritizedQueue queue = new PrioritizedQueue(10);
         queue.enqueue(15);
         queue.enqueue(4);
         queue.enqueue(12);
@@ -21,28 +21,29 @@ public class PrioritizedQueue {
     public PrioritizedQueue(int capacity) {
         queue = new int[capacity];
     }
-public void enqueue(int item){
-    int i=0;
-        if(count==queue.length){
+
+    public void enqueue(int item) {
+        int i = 0;
+        if (count == queue.length) {
             throw new IllegalStateException("Queue is full");
         }
-        if(count==0){
-            queue[0]=item;
-        }else{
+        if (count == 0) {
+            queue[0] = item;
+        } else {
 
-            for( i=(count-1);i>=0;i--) {
-                if(queue[i]>item){
+            for (i = (count - 1); i >= 0; i--) {
+                if (queue[i] > item) {
                     //push to the right
-                    queue[i+1]=queue[i];
-                }else{
+                    queue[i + 1] = queue[i];
+                } else {
 
                     break;
                 }
             }
         }
-    queue[i+1]=item;
-        count ++;
-}
+        queue[i + 1] = item;
+        count++;
+    }
 
     @Override
     public String toString() {
