@@ -15,10 +15,11 @@ public class Graph {
         graph.addEdge("A","D");
         graph.addEdge("C","D");
         graph.addEdge("A","E");
-        graph.traverseDepthFirst("A");
+       // graph.traverseDepthFirst("A");
+        graph.traverseBreadthFirst("A");
     }
     private class Node {
-        String label;
+        private String label;
 
         public Node(String _label) {
             this.label = _label;
@@ -28,7 +29,7 @@ public class Graph {
 
     private Map<String, Node> nodes = new HashMap<>();
     private Map<Node, List<Node>> adjacencyList = new HashMap<>();
-
+private Stack<Node> nodeStack= new Stack<>();
 
     public void addNode(String label) {
         var node = new Node(label);
@@ -62,6 +63,36 @@ public class Graph {
             if(!visited.contains(node)){
                traverseDepthFirst(node,visited);
             }
+        }
+    }
+
+//    private void traverseDepthFirstByIteration(Node root){
+//        System.out.println(root.label);
+//        nodeStack.add(root);
+//
+//        while(!nodeStack.isEmpty()){
+//            var node=adjacencyList.get(nodeStack.pop());
+//            nodeStack.add(node.get(0));
+//        }
+//    }
+    public void traverseBreadthFirst(String root){
+        traverseBreadthFirst(nodes.get(root), new HashSet<>());
+    }
+    public void traverseBreadthFirst(Node root,Set<Node> visited){
+        var queue= new ArrayDeque<Node>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            var current= queue.remove();
+            if(visited.contains(current)){
+                continue;
+            }
+            System.out.println(current.label);
+            for(var neighbor: adjacencyList.get(current)){
+                if(!visited.contains(neighbor)) {
+                    queue.add(neighbor);
+                }
+            }
+            visited.add(current);
         }
     }
 }
