@@ -17,15 +17,24 @@ public class Graph {
 //        graph.addEdge("A", "E");
 //        // graph.traverseDepthFirst("A");
 //        graph.traverseBreadthFirst("A");
-        graph.addNode("X");
+//        graph.addNode("X");
+//        graph.addNode("A");
+//        graph.addNode("B");
+//        graph.addNode("P");
+//        graph.addEdge("X", "A");
+//        graph.addEdge("X", "B");
+//        graph.addEdge("A", "P");
+//        graph.addEdge("B", "P");
+//        System.out.println(graph.topoligicalSort());
         graph.addNode("A");
         graph.addNode("B");
-        graph.addNode("P");
-        graph.addEdge("X","A");
-        graph.addEdge("X","B");
-        graph.addEdge("A","P");
-        graph.addEdge("B","P");
-        System.out.println(graph.topoligicalSort());
+        graph.addNode("C");
+        graph.addNode("D");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        graph.addEdge("D", "A");
+        System.out.println("Graph has cycle: "+graph.hasCycle());
     }
 
     private class Node {
@@ -37,7 +46,7 @@ public class Graph {
 
         @Override
         public String toString() {
-            return  "node "+label;
+            return "node " + label;
         }
     }
 
@@ -136,4 +145,35 @@ public class Graph {
         }
         stack.add(node);
     }
+
+    public boolean hasCycle() {
+        Set<Node> allNodes = new HashSet<>();
+        allNodes.addAll(nodes.values());
+        Set<Node> visiting = new HashSet<>();
+        Set<Node> visited = new HashSet<>();
+        for (var node : allNodes) {
+            if(hasCycle(node, visiting, visited)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCycle(Node root, Set<Node> visiting, Set<Node> visited) {
+        visiting.add(root);
+        for (var neighbor : adjacencyList.get(root)) {
+            if(visited.contains(neighbor)){
+                continue;
+            }
+            if(visiting.contains(neighbor)){
+                return true;
+            }
+            visiting.add(neighbor);
+            hasCycle(neighbor, visiting, visited);
+        }
+        visiting.remove(root);
+        visited.add(root);
+        return false;
+    }
+
 }
