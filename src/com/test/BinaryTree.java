@@ -225,5 +225,15 @@ public class BinaryTree {
         return areSiblings(root, leftVal, rightVal);
     }
 
+    public int height(Node root){
+        //height of a tree is the longest path from leaf node to target node e.g root
+        //compare the height of left subtree vs height of right subtree
+        if(root.left==null && root.right==null){
+            return 0;
+        }
+
+        return 1+Math.max(height(root.left),height(root.right));
+    }
+
 
 }
